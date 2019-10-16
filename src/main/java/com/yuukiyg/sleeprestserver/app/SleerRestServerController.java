@@ -1,5 +1,7 @@
 package com.yuukiyg.sleeprestserver.app;
 
+import java.util.UUID;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,21 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class SleerRestServerController {
 
     @RequestMapping(value = "/wait", method = RequestMethod.GET)
-    public String wait(@RequestParam("name") String name, @RequestParam("time") String waitTime) {
+    public String wait(
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "time", required = false) String waitTime) {
 
-        int waitTimeMills = Integer.parseInt(waitTime);
-
-        //String uuid = UUID.randomUUID().toString();
+        final String name4logging = "".equals(name)? UUID.randomUUID().toString() : name;
+        final int waitTimeMills = "".equals(waitTime)? 10000 : Integer.parseInt(waitTime);
 
         String retMsg = "";
         try {
-            System.out.println("["+ name +"] start waiting... (waitTime: " + waitTime + ")");
+            System.out.println("[" + name4logging + "] start waiting... (waitTime: "
+                    + waitTime + ")");
 
             Thread.sleep(waitTimeMills);
 
-            System.out.println("["+ name +"] end waiting. ");
+            System.out.println("[" + name4logging + "] end waiting. ");
 
-            retMsg = "waited: " + waitTimeMills;
+            retMsg = "[" + name4logging + "] waited: " + waitTimeMills;
         } catch (InterruptedException e) {
             retMsg = "error";
             // e.printStackTrace();
