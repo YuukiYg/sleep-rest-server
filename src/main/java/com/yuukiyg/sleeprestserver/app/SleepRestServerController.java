@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * HTTPリクエストで指定された時間、Sleepするサーバ.
  */
 @RestController
-public class SleerRestServerController {
+public class SleepRestServerController {
 
     @RequestMapping(value = "/wait", method = RequestMethod.GET)
     public String wait(
